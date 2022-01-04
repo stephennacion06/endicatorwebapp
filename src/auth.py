@@ -14,6 +14,9 @@ def register():
     username = request.json['username']
     email = request.json['email']
     password = request.json['password']
+    device_number = request.json['device_number']
+    user_number = request.json['user_number']
+    
 
     if len(password) < 6:
         return jsonify({'error': "Password is too short"}), HTTP_400_BAD_REQUEST
@@ -35,14 +38,14 @@ def register():
 
     pwd_hash = generate_password_hash(password)
 
-    user = User(username=username, password=pwd_hash, email=email)
+    user = User(username=username, password=pwd_hash, email=email, device_number=device_number, user_number=user_number)
     db.session.add(user)
     db.session.commit()
 
     return jsonify({
         'message': "User created",
         'user': {
-            'username': username, "email": email
+            'username': username, "email": email, 'device_number': device_number, 'user_number': user_number
         }
 
     }), HTTP_201_CREATED
@@ -67,7 +70,9 @@ def login():
                     'refresh': refresh,
                     'access': access,
                     'username': user.username,
-                    'email': user.email
+                    'email': user.email,
+                    'user_number': user.user_number,
+                    'device_number': user.device_number
                 }
 
             }), HTTP_200_OK

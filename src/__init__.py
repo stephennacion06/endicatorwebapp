@@ -1,10 +1,12 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, url_for
 import os
 from flask.json import jsonify
 from flask_sqlalchemy import SQLAlchemy
 from src.auth import auth
-from src.bookmarks import bookmarks
-from src.database import db, Bookmark
+from src.battery import batteries
+from src.login_page import login_page
+from src.dashboard_page import dashboard_page
+from src.database import db, Battery
 from flask_jwt_extended import JWTManager
 from src.constants.http_status_codes import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 
@@ -26,18 +28,14 @@ def create_app(test_config=None):
     db.init_app(app)
     
     JWTManager(app)
-    app.register_blueprint(auth)
-    app.register_blueprint(bookmarks)
     
-    @app.get('/<short_url>')
-    def redirect_to_url(short_url):
-        bookmark = Bookmark.query.filter_by(short_url=short_url).first_or_404()
-
-        if bookmark:
-            bookmark.visits = bookmark.visits+1
-            db.session.commit()
-            return redirect(bookmark.url)
-        
+    app.register_blueprint(login_page)
+    app.register_blueprint(dashboard_page)
+    app.register_blueprint(auth)
+    app.register_blueprint(batteries)
+    
+    
+    
     @app.errorhandler(HTTP_404_NOT_FOUND)
     def handle_404(e):
         return jsonify({'error': 'Not found'}), HTTP_404_NOT_FOUND

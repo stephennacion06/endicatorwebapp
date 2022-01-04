@@ -9,40 +9,37 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    user_number = db.Column(db.String(120), unique=True, nullable=False)
+    device_number = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.Text(), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, onupdate=datetime.now())
-    bookmarks = db.relationship('Bookmark', backref="user")
+    Batteries = db.relationship('Battery', backref="user")
 
     def __repr__(self) -> str:
         return 'User>>> {self.username}'
 
 
-class Bookmark(db.Model):
+class Battery(db.Model):
+    
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.Text, nullable=True)
-    url = db.Column(db.Text, nullable=False)
-    short_url = db.Column(db.String(3), nullable=True)
-    visits = db.Column(db.Integer, default=0)
+    voltage = db.Column(db.Text, default=0)
+    current = db.Column(db.Text, default=0)
+    SOC = db.Column(db.Text, default=0)
+    SOH = db.Column(db.Text, default=0)
+    RUL_EOL = db.Column(db.Text, default=0)
+    DOD = db.Column(db.Text, default=0)
+    brand = db.Column(db.Text, default=0)
+    capacity = db.Column(db.Text, default=0)
+    no_load_v = db.Column(db.Text, default=0)
+    internal_resistance = db.Column(db.Text, default=0)
+    number_of_cycle = db.Column(db.Text, default=0)
+    
+    
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, onupdate=datetime.now())
 
-    def generate_short_characters(self):
-        characters = string.digits+string.ascii_letters
-        picked_chars = ''.join(random.choices(characters, k=3))
-
-        link = self.query.filter_by(short_url=picked_chars).first()
-
-        if link:
-            self.generate_short_characters()
-        else:
-            return picked_chars
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        self.short_url = self.generate_short_characters()
 
     def __repr__(self) -> str:
         return 'Boomark>>> {self.url}'
