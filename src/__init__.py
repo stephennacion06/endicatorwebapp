@@ -16,7 +16,7 @@ def create_app(test_config=None):
                 instance_relative_config=True)
     
     if test_config is None:
-        print(os.environ.get("SQLALCHEMY_DB_URI"))
+        print("HELLO CHECK THIS ",os.environ.get("SQLALCHEMY_DB_URI"))
         app.config.from_mapping(
             SECRET_KEY=os.environ.get("SECRET_KEY"),
             SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DB_URI"),
