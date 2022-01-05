@@ -19,7 +19,7 @@ def login_post():
     password = request.form.get('password')
     
     user = User.query.filter_by(username=username).first()
-
+    print("Entered login_post")
     if user:
         is_pass_correct = check_password_hash(user.password, password)
 
@@ -38,6 +38,7 @@ def login_post():
             #     }
 
             # }), HTTP_200_OK
+            print("entered login_post 2")
             return redirect(url_for("dashboard_page.user_dashboard", username=username ))
 
     return "LOGIN FAILED"
