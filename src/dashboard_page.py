@@ -17,12 +17,13 @@ def stuff():
     try: 
         battery = Battery.query.filter_by(user_id=user_id).order_by(Battery.id.desc()).first()
         print(battery.voltage)
-    except:
+   
         print("need to fix this 2")
     
     
-    return jsonify(result=battery.voltage, result2=battery.current, result3=battery.SOH, result4=battery.SOC)
-
+        return jsonify(result=battery.voltage, result2=battery.current, result3=battery.SOH, result4=battery.SOC)
+    except:
+        print("fix this error 2")
 
 @dashboard_page.route('/<username>')
 def user_dashboard(username):
