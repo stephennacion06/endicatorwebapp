@@ -14,8 +14,11 @@ dashboard_page = Blueprint("dashboard_page", __name__)
 @dashboard_page.route('/_stuff', methods = ['GET'])
 def stuff():
     global user_id
-    battery = Battery.query.filter_by(user_id=user_id).order_by(Battery.id.desc()).first()
-    print(battery.voltage)
+    try: 
+        battery = Battery.query.filter_by(user_id=user_id).order_by(Battery.id.desc()).first()
+        print(battery.voltage)
+    except:
+        print("need to fix this 2")
     
     
     return jsonify(result=battery.voltage, result2=battery.current, result3=battery.SOH, result4=battery.SOC)
@@ -28,7 +31,11 @@ def user_dashboard(username):
     #
     # battery = Battery.query.filter_by(username=username).first()
     # print(battery)
-    user = User.query.filter_by(username=username).first()
-    
-    user_id = user.id
+    try:
+        user = User.query.filter_by(username=username).first()
+        
+        user_id = user.id
+    except:
+        print("need to fix this")
+   
     return render_template('dashboard.html')
