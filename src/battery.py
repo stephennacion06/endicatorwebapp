@@ -8,6 +8,28 @@ from src.database import Battery, db
 batteries = Blueprint("batteries", __name__, url_prefix="/api/v1/batteries")
 
 
+@batteries.route('/update')
+def post_route():
+    user = request.args.get('user', default = 1, type = int)
+    field1 = request.args.get('field1', default = 0, type = str)
+    field2 = request.args.get('field2', default = 0, type = str)
+    field3 = request.args.get('field3', default = 0, type = str)
+    field4 = request.args.get('field4', default = 0, type = str)
+    batteries = Battery(user_id=user,
+                voltage=field1, 
+                current=field2, 
+                SOC= field3, 
+                SOH= field4,
+                )
+    db.session.add(batteries)
+    db.session.commit()
+    
+    return jsonify({'user': user, 
+                    "field1": field1,
+                    "field2": field2})
+
+
+
 @batteries.route('/', methods=['POST', 'GET'])
 @jwt_required()
 def handle_batteries():
