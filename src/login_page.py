@@ -6,6 +6,8 @@ from flask_jwt_extended import jwt_required, create_access_token, create_refresh
 from werkzeug.security import check_password_hash, generate_password_hash
 from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
 from src.dashboard_page import dashboard_page
+
+
 login_page = Blueprint("login_page", __name__)
 
 @login_page.route('/')

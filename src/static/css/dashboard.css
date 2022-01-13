@@ -3,11 +3,12 @@
 }
 body {
   font-size: 14px;
+  background: #A8E393;
 }
-.v1_87 {
+.container {
+  margin-top: 5%;
   width: 360px;
-  height: 640px;
-  background: rgba(255,255,255,1);
+  height: 75vh;
   opacity: 1;
   position: relative;
   top: 0px;

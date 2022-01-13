@@ -7,6 +7,7 @@ from src.battery import batteries
 from src.login_page import login_page
 from src.dashboard_page import dashboard_page
 from src.database import db, Battery
+from src.url_post import url_page
 from flask_jwt_extended import JWTManager
 from src.constants.http_status_codes import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 
@@ -34,7 +35,7 @@ def create_app(test_config=None):
     app.register_blueprint(dashboard_page)
     app.register_blueprint(auth)
     app.register_blueprint(batteries)
-    
+    app.register_blueprint(url_page)
     
     
     @app.errorhandler(HTTP_404_NOT_FOUND)
