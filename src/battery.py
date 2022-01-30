@@ -84,7 +84,7 @@ def handle_batteries():
     else:
 
 
-        batteries = Battery.query.filter_by(user_id=current_user).first()
+        batteries = Battery.query.filter_by(user_id=current_user).all()
         
         data = []
 
