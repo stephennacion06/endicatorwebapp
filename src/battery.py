@@ -3,7 +3,7 @@ from flask import Blueprint, request
 from flask.json import jsonify
 import validators
 from flask_jwt_extended import get_jwt_identity, jwt_required
-from src.database import Battery, db
+from src.database import Battery, db, User
 
 batteries = Blueprint("batteries", __name__, url_prefix="/api/v1/batteries")
 
@@ -91,7 +91,7 @@ def handle_batteries():
 
         for battery in batteries:
             data.append({
-            'user_id': battery.id,
+            'record_number': battery.id,
             'voltage': battery.voltage,
             'current': battery.current,
             'SOC': battery.SOC,
@@ -103,38 +103,35 @@ def handle_batteries():
             'no_load_v':battery.no_load_v,
             'internal_resistance':battery.internal_resistance,
             'number_of_cycle': battery.number_of_cycle,
+            'time': battery.created_at
             })
     
 
 
         return jsonify({'data': data}), HTTP_200_OK
     
-    
-@batteries.get("/<int:id>")
-@jwt_required()
-def get_battery(id):
+
+# Fetch all users
+@batteries.get("/users")
+def get_battery():
     current_user = get_jwt_identity()
 
-    battery = Battery.query.filter_by(user_id=current_user, id=id).first()
+    users = User.query.all()
+    data=[]
+    if not users:
+        return jsonify({'message': 'No users registered'}), HTTP_404_NOT_FOUND
 
-    if not battery:
-        return jsonify({'message': 'Item not found'}), HTTP_404_NOT_FOUND
+    for user in users:
+        data.append({
+        'id number#': user.id,
+        'username': user.username,
+        'email': user.email,
+        'user cellphone number': user.user_number,
+        'device cp number': user.device_number,
+        'created_at': user.created_at
+        })
 
-    return jsonify({
-            'user_id': batteries.id,
-            'voltage': batteries.voltage,
-            'current': batteries.current,
-            'SOC': batteries.SOC,
-            'SOH': batteries.SOH,
-            'RUL_EOL': batteries.RUL_EOL,
-            'DOD': batteries.DOD,
-            'brand': batteries.brand,
-            'capacity':batteries.capacity,
-            'no_load_v':batteries.no_load_v,
-            'internal_resistance':batteries.internal_resistance,
-            'number_of_cycle': batteries.number_of_cycle,
-
-    }), HTTP_200_OK
+    return jsonify({'data': data}), HTTP_200_OK
     
     
 @batteries.put('/<int:id>')
