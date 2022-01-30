@@ -82,28 +82,29 @@ def handle_batteries():
         }), HTTP_201_CREATED
 
     else:
-        page = request.args.get('page', 1, type=int)
-        per_page = request.args.get('per_page', 5, type=int)
 
-        battery = Battery.query.filter_by(user_id=current_user).first()
 
+        batteries = Battery.query.filter_by(user_id=current_user).first()
+        
         data = []
 
 
-        data.append({
-        'user_id': battery.id,
-        'voltage': battery.voltage,
-        'current': battery.current,
-        'SOC': battery.SOC,
-        'SOH': battery.SOH,
-        'RUL_EOL': battery.RUL_EOL,
-        'DOD': battery.DOD,
-        'brand': battery.brand,
-        'capacity':battery.capacity,
-        'no_load_v':battery.no_load_v,
-        'internal_resistance':battery.internal_resistance,
-        'number_of_cycle': battery.number_of_cycle,
-        })
+        for battery in batteries:
+            data.append({
+            'user_id': battery.id,
+            'voltage': battery.voltage,
+            'current': battery.current,
+            'SOC': battery.SOC,
+            'SOH': battery.SOH,
+            'RUL_EOL': battery.RUL_EOL,
+            'DOD': battery.DOD,
+            'brand': battery.brand,
+            'capacity':battery.capacity,
+            'no_load_v':battery.no_load_v,
+            'internal_resistance':battery.internal_resistance,
+            'number_of_cycle': battery.number_of_cycle,
+            })
+    
 
 
         return jsonify({'data': data}), HTTP_200_OK
