@@ -114,8 +114,7 @@ def handle_batteries():
 # Fetch all users
 @batteries.get("/users")
 def get_battery():
-    current_user = get_jwt_identity()
-
+    
     users = User.query.all()
     data=[]
     if not users:
