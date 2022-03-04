@@ -50,33 +50,90 @@
 
 
         <div class="container">
-            <div class="v1_88"></div>
-            <div class="v1_89"></div>
-            <image class="v1_90" src ="static\images\home_icon.svg">
-            <image class="v1_93" src ="static\images\dashboard_icon.svg"> 
-            <image class="v1_97" src ="static\images\chart_icon.svg"> 
-            <image class="v1_109" src ="static\images\Logo.png">
-            
-            <div class="v1_110"></div>
-            <div class="v1_111"></div>
-            <div class="v1_112"></div>
-            <div class="v1_113"></div>
+            <div class="header">
+              <image class="logo" src ="static\images\Logo.png">
+            </div>
+            <div class="parameters">
+              
+              <div class="vbox-1">
+                <p class="label-1">VOLTAGE:</p>
+                <p class="value-1">V</p>
+                <p class="value-1" id="result">0</p>
+                
+              </div>
 
-            <span class="v1_114">VOLTAGE:</span>
-            <span class="voltage_val" id="result">0</span>
-            <span class="voltage_symbol">V</span>
-            
-            <span class="v1_115">CURRENT:</span>
-            <span class="current_val" id="result2">0</span>
-            <span class="current_symbol">A</span>
-            
-            <span class="v1_116">SoH:</span>
-            <span class="soh_val" id="result3">0</span>
-            <span class="soh_symbol">%</span>
+              <div class="vbox-2">
+                <p class="label-2">CURRENT:</p>
+                <p class="value-2">A</p>
+                <p class="value-2" id="result2">0</p>
+                
 
-            <span class="v1_117">SoC:</span>
-            <span class="soc_val" id="result4">0</span>
-            <span class="soc_symbol">%</span>
+              </div>
+
+              <div class="vbox-1">
+                <p class="label-1">STATE OF HEALTH:</p>
+                <p class="value-1">%</p>
+                <p class="value-1" id="result3">0</p>
+                
+              </div>
+
+              <div class="vbox-2">
+                <p class="label-2">STATE OF CHARGE:</p>
+                <p class="value-2">%</p>
+                <p class="value-2" id="result4">0</p>
+                
+              </div>
+
+              <div class="vbox-1">
+                <p class="label-1">INTERNAL RESISTANCE:</p>
+                <p class="value-1">Ω</p>
+                
+              </div>
+
+              <div class="vbox-2">
+                <p class="label-2">BATTERY CAPACITY:</p>
+                <p class="value-2">Ah</p>
+                
+              </div>
+
+              <div class="vbox-1">
+                <p class="label-1">DEPTH OF DISCHARGE:</p>
+                <p class="value-1">%</p>
+                
+              </div>
+
+
+              <div class="vbox-2">
+                <p class="label-2">BRAND:</p>
+                
+              </div>
+
+              <div class="vbox-1">
+                <p class="label-1">MAX LOAD:</p>
+                <p class="value-1">W</p>
+                
+              </div>
+
+              <div class="vbox-2">
+                <p class="label-2">NO LOAD VOLTAGE:</p>
+                <p class="value-2">V</p>
+                
+              </div>
+
+              <div class="vbox-1">
+                <p class="label-1">NUMBER OF CYCLE:</p>
+                <p class="value-1"></p>
+              </div>
+            
+            </div>
+
+            <div class="navigation">
+              
+              <image class="home-icon" src ="static\images\home_icon.svg"></image>
+              <image class="dashboard-icon" src ="static\images\chart_icon.svg"> 
+              <image class="chart-icon" src ="static\images\chart_icon.svg">
+              
+            </div>
         </div>
 
         <script>
