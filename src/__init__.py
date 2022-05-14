@@ -6,6 +6,8 @@ from src.auth import auth
 from src.battery import batteries
 from src.login_page import login_page
 from src.dashboard_page import dashboard_page
+from src.chart_page import chart_page
+from src.settings_page import settings_page
 from src.database import db, Battery
 from src.url_post import url_page
 from flask_jwt_extended import JWTManager
@@ -15,6 +17,9 @@ from src.constants.http_status_codes import HTTP_404_NOT_FOUND, HTTP_500_INTERNA
 def create_app(test_config=None):
     app = Flask(__name__,
                 instance_relative_config=True)
+
+
+    
     
     if test_config is None:
         print("HELLO CHECK THIS ",os.environ.get("SQLALCHEMY_DB_URI"))
@@ -36,6 +41,8 @@ def create_app(test_config=None):
     app.register_blueprint(auth)
     app.register_blueprint(batteries)
     app.register_blueprint(url_page)
+    app.register_blueprint(chart_page)
+    app.register_blueprint(settings_page)
     
     
     @app.errorhandler(HTTP_404_NOT_FOUND)

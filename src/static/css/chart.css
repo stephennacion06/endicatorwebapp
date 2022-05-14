@@ -46,7 +46,6 @@ display: block;
 .parameters{
   height: 60vh;
   overflow-y: scroll; /* Hide vertical scrollbar */
-  overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 .vbox-1{
@@ -171,4 +170,14 @@ float: left;
   float: right;
   background-color: #669C53;
   border: none;
+}
+
+h2 {
+  color: #fff;
+}
+
+.chart-design {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
