@@ -28,6 +28,24 @@ def post_route():
                     "field1": field1,
                     "field2": field2})
 
+#Fetch parameters from User table
+@batteries.route('/get_values')
+def get_route():
+    user = request.args.get('user', default = 1, type = int)
+
+    current_user = User.query.filter_by(id=user).first()
+    
+    batery_model = current_user.battery_model 
+    battery_capacity = current_user.battery_capacity 
+    battery_voltage = current_user.battery_voltage  
+    battery_type = current_user.battery_type  
+
+    return jsonify({'user': user, 
+                    "model": batery_model,
+                    "capacity": battery_capacity,
+                    "voltage": battery_voltage,
+                    "type": battery_type,
+                })
 
 
 @batteries.route('/', methods=['POST', 'GET'])

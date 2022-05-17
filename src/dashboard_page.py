@@ -18,6 +18,7 @@ def stuff(username):
     user_id = user.id
 
     battery = Battery.query.filter_by(user_id=user_id).order_by(Battery.id.desc()).first()
+    current_user = User.query.filter_by(username=username).first()
 
     
 
@@ -26,10 +27,10 @@ def stuff(username):
     result3=battery.SOH, 
     result4=battery.SOC,
     result5=battery.internal_resistance,
-    result6=battery.capacity,
+    result6=current_user.battery_capacity,
     result7=battery.DOD,
-    result8=battery.brand,
-    result9=battery.no_load_v,
+    result8=current_user.battery_model,
+    result9=current_user.battery_voltage,
     result10=battery.number_of_cycle,
     )
 
