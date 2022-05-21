@@ -1,11 +1,11 @@
 from flask import Blueprint,render_template, flash, request, jsonify,redirect,url_for
-from src.database import User, db
+from database import User, db
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from werkzeug.security import check_password_hash, generate_password_hash
-from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
+from constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
 import random
 import time
-from src.database import Battery, db
+from database import Battery, db
 
 
 

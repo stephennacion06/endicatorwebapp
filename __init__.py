@@ -2,22 +2,11 @@ from flask import Flask, redirect, url_for
 import os
 from flask.json import jsonify
 from flask_sqlalchemy import SQLAlchemy
-<<<<<<< HEAD:__init__.py
 from auth import auth
 from battery import batteries
 from login_page import login_page
 from dashboard_page import dashboard_page
 from database import db, Battery
-=======
-from src.auth import auth
-from src.battery import batteries
-from src.login_page import login_page
-from src.dashboard_page import dashboard_page
-from src.chart_page import chart_page
-from src.settings_page import settings_page
-from src.database import db, Battery
-from src.url_post import url_page
->>>>>>> origin/finalization:src/__init__.py
 from flask_jwt_extended import JWTManager
 from constants.http_status_codes import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 
