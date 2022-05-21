@@ -1,10 +1,5 @@
-<<<<<<< HEAD:dashboard_page.py
 from flask import Blueprint,render_template, flash, request, jsonify
 from database import User, db
-=======
-from flask import Blueprint,render_template, flash, request, jsonify, session, url_for, redirect
-from database import User, db
->>>>>>> origin/finalization:src/dashboard_page.py
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from werkzeug.security import check_password_hash, generate_password_hash
 from constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
