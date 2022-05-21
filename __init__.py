@@ -2,13 +2,13 @@ from flask import Flask, redirect, url_for
 import os
 from flask.json import jsonify
 from flask_sqlalchemy import SQLAlchemy
-from src.auth import auth
-from src.battery import batteries
-from src.login_page import login_page
-from src.dashboard_page import dashboard_page
-from src.database import db, Battery
+from auth import auth
+from battery import batteries
+from login_page import login_page
+from dashboard_page import dashboard_page
+from database import db, Battery
 from flask_jwt_extended import JWTManager
-from src.constants.http_status_codes import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
+from constants.http_status_codes import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 
 
 def create_app(test_config=None):
