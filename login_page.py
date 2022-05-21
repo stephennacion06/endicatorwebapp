@@ -4,15 +4,8 @@ from werkzeug.utils import redirect
 from database import User, db
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from werkzeug.security import check_password_hash, generate_password_hash
-<<<<<<< HEAD:login_page.py
 from constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
 from dashboard_page import dashboard_page
-=======
-from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
-from src.dashboard_page import dashboard_page
-
-
->>>>>>> origin/finalization:src/login_page.py
 login_page = Blueprint("login_page", __name__)
 
 @login_page.route('/')
