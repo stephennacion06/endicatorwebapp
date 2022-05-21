@@ -3,7 +3,7 @@ from flask import Blueprint, request
 from flask.json import jsonify
 import validators
 from flask_jwt_extended import get_jwt_identity, jwt_required
-from database import Battery, db
+from database import Battery, db, User
 
 batteries = Blueprint("batteries", __name__, url_prefix="/api/v1/batteries")
 
