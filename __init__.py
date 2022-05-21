@@ -6,8 +6,11 @@ from auth import auth
 from battery import batteries
 from login_page import login_page
 from dashboard_page import dashboard_page
-from database import db, Battery
 from flask_jwt_extended import JWTManager
+from chart_page import chart_page
+from settings_page import settings_page
+from database import db, Battery
+from url_post import url_page
 from constants.http_status_codes import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR
 
 
