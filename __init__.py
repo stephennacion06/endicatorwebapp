@@ -21,17 +21,10 @@ def create_app(test_config=None):
     if test_config is None:
         print("HELLO CHECK THIS ",os.environ.get("SQLALCHEMY_DB_URI"))
         app.config.from_mapping(
-<<<<<<< HEAD:__init__.py
             SECRET_KEY="12345678",
             SQLALCHEMY_DATABASE_URI="sqlite:///database.db",
             SQLALCHEMY_TRACK_MODIFICATIONS=False,
             JWT_SECRET_KEY="12345678",
-=======
-            SECRET_KEY="dev",
-            SQLALCHEMY_DATABASE_URI="sqlite:///database.db",
-            SQLALCHEMY_TRACK_MODIFICATIONS=False,
-            JWT_SECRET_KEY="1234567890",
->>>>>>> origin/finalization:src/__init__.py
         )
     else:
         app.config.from_mapping(test_config)
