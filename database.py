@@ -12,6 +12,12 @@ class User(db.Model):
     user_number = db.Column(db.String(120), unique=True, nullable=False)
     device_number = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.Text(), nullable=False)
+    battery_type = db.Column(db.String(120), default="Lead Acid")
+    battery_voltage = db.Column(db.String(120), default="12")
+    battery_capacity = db.Column(db.String(120), default="1000")
+    battery_model = db.Column(db.String(120), default="None")
+
+
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, onupdate=datetime.now())
     Batteries = db.relationship('Battery', backref="user")

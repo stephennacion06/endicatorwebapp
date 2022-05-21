@@ -3,9 +3,53 @@ from flask import Blueprint, request
 from flask.json import jsonify
 import validators
 from flask_jwt_extended import get_jwt_identity, jwt_required
+<<<<<<< HEAD:battery.py
 from database import Battery, db
+=======
+from src.database import Battery, db, User
+>>>>>>> origin/finalization:src/battery.py
 
 batteries = Blueprint("batteries", __name__, url_prefix="/api/v1/batteries")
+
+
+@batteries.route('/update')
+def post_route():
+    user = request.args.get('user', default = 1, type = int)
+    field1 = request.args.get('field1', default = 0, type = str)
+    field2 = request.args.get('field2', default = 0, type = str)
+    field3 = request.args.get('field3', default = 0, type = str)
+    field4 = request.args.get('field4', default = 0, type = str)
+    batteries = Battery(user_id=user,
+                voltage=field1, 
+                current=field2, 
+                SOC= field3, 
+                SOH= field4,
+                )
+    db.session.add(batteries)
+    db.session.commit()
+    
+    return jsonify({'user': user, 
+                    "field1": field1,
+                    "field2": field2})
+
+#Fetch parameters from User table
+@batteries.route('/get_values')
+def get_route():
+    user = request.args.get('user', default = 1, type = int)
+
+    current_user = User.query.filter_by(id=user).first()
+    
+    batery_model = current_user.battery_model 
+    battery_capacity = current_user.battery_capacity 
+    battery_voltage = current_user.battery_voltage  
+    battery_type = current_user.battery_type  
+
+    return jsonify({'user': user, 
+                    "model": batery_model,
+                    "capacity": battery_capacity,
+                    "voltage": battery_voltage,
+                    "type": battery_type,
+                })
 
 
 @batteries.route('/', methods=['POST', 'GET'])
@@ -60,58 +104,55 @@ def handle_batteries():
         }), HTTP_201_CREATED
 
     else:
-        page = request.args.get('page', 1, type=int)
-        per_page = request.args.get('per_page', 5, type=int)
 
-        battery = Battery.query.filter_by(user_id=current_user).first()
 
+        batteries = Battery.query.filter_by(user_id=current_user).all()
+        
         data = []
 
 
-        data.append({
-        'user_id': battery.id,
-        'voltage': battery.voltage,
-        'current': battery.current,
-        'SOC': battery.SOC,
-        'SOH': battery.SOH,
-        'RUL_EOL': battery.RUL_EOL,
-        'DOD': battery.DOD,
-        'brand': battery.brand,
-        'capacity':battery.capacity,
-        'no_load_v':battery.no_load_v,
-        'internal_resistance':battery.internal_resistance,
-        'number_of_cycle': battery.number_of_cycle,
-        })
+        for battery in batteries:
+            data.append({
+            'record_number': battery.id,
+            'voltage': battery.voltage,
+            'current': battery.current,
+            'SOC': battery.SOC,
+            'SOH': battery.SOH,
+            'RUL_EOL': battery.RUL_EOL,
+            'DOD': battery.DOD,
+            'brand': battery.brand,
+            'capacity':battery.capacity,
+            'no_load_v':battery.no_load_v,
+            'internal_resistance':battery.internal_resistance,
+            'number_of_cycle': battery.number_of_cycle,
+            'time': battery.created_at
+            })
+    
 
 
         return jsonify({'data': data}), HTTP_200_OK
     
+
+# Fetch all users
+@batteries.get("/users")
+def get_battery():
     
-@batteries.get("/<int:id>")
-@jwt_required()
-def get_battery(id):
-    current_user = get_jwt_identity()
+    users = User.query.all()
+    data=[]
+    if not users:
+        return jsonify({'message': 'No users registered'}), HTTP_404_NOT_FOUND
 
-    battery = Battery.query.filter_by(user_id=current_user, id=id).first()
+    for user in users:
+        data.append({
+        'id number#': user.id,
+        'username': user.username,
+        'email': user.email,
+        'user cellphone number': user.user_number,
+        'device cp number': user.device_number,
+        'created_at': user.created_at
+        })
 
-    if not battery:
-        return jsonify({'message': 'Item not found'}), HTTP_404_NOT_FOUND
-
-    return jsonify({
-            'user_id': batteries.id,
-            'voltage': batteries.voltage,
-            'current': batteries.current,
-            'SOC': batteries.SOC,
-            'SOH': batteries.SOH,
-            'RUL_EOL': batteries.RUL_EOL,
-            'DOD': batteries.DOD,
-            'brand': batteries.brand,
-            'capacity':batteries.capacity,
-            'no_load_v':batteries.no_load_v,
-            'internal_resistance':batteries.internal_resistance,
-            'number_of_cycle': batteries.number_of_cycle,
-
-    }), HTTP_200_OK
+    return jsonify({'data': data}), HTTP_200_OK
     
     
 @batteries.put('/<int:id>')

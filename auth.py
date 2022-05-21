@@ -35,6 +35,12 @@ def register():
 
     if User.query.filter_by(username=username).first() is not None:
         return jsonify({'error': "username is taken"}), HTTP_409_CONFLICT
+    
+    if User.query.filter_by(device_number=device_number).first() is not None:
+        return jsonify({'error': "device number is taken"}), HTTP_409_CONFLICT
+    
+    if User.query.filter_by(user_number=user_number).first() is not None:
+        return jsonify({'error': "user number is taken"}), HTTP_409_CONFLICT
 
     pwd_hash = generate_password_hash(password)
 
