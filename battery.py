@@ -4,9 +4,9 @@ from flask.json import jsonify
 import validators
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from database import Battery, db, User
+from datetime import datetime
 
 batteries = Blueprint("batteries", __name__, url_prefix="/api/v1/batteries")
-
 
 @batteries.route('/update')
 def post_route():
@@ -15,16 +15,36 @@ def post_route():
     field2 = request.args.get('field2', default = 0, type = str)
     field3 = request.args.get('field3', default = 0, type = str)
     field4 = request.args.get('field4', default = 0, type = str)
+    field5 = request.args.get('field5', default = 0, type = str)
+
+    battery = Battery.query.filter_by(user_id=user).order_by(Battery.id.desc()).first()
+    no_cycle = int(battery.number_of_cycle)
+
+    SOC = field3
+    DOD = 100 - float(SOC)
+
+
+    if float(SOC) < 5:
+        no_cycle += 1
+
+
+    print(user,field1,field2, SOC, field4, field5, DOD, no_cycle)
+
+
     batteries = Battery(user_id=user,
-                voltage=field1, 
-                current=field2, 
-                SOC= field3, 
+                voltage=field1,
+                current=field2,
+                SOC= SOC,
                 SOH= field4,
+                internal_resistance=field5,
+                DOD= DOD,
+                number_of_cycle = no_cycle,
+                created_at = datetime.now()
                 )
     db.session.add(batteries)
     db.session.commit()
-    
-    return jsonify({'user': user, 
+
+    return jsonify({'user': user,
                     "field1": field1,
                     "field2": field2})
 
@@ -34,18 +54,20 @@ def get_route():
     user = request.args.get('user', default = 1, type = int)
 
     current_user = User.query.filter_by(id=user).first()
-    
-    batery_model = current_user.battery_model 
-    battery_capacity = current_user.battery_capacity 
-    battery_voltage = current_user.battery_voltage  
-    battery_type = current_user.battery_type  
 
-    return jsonify({'user': user, 
-                    "model": batery_model,
-                    "capacity": battery_capacity,
-                    "voltage": battery_voltage,
-                    "type": battery_type,
-                })
+    batery_model = current_user.battery_model
+    battery_capacity = current_user.battery_capacity
+    battery_voltage = current_user.battery_voltage
+    battery_type = current_user.battery_type
+
+
+    voltage_calib = 2.96
+    current_calib = -0.07
+    SOH_calib = 0.84
+    SOC_calib = 1
+
+
+    return jsonify(voltage_calib, current_calib,SOH_calib,float(battery_capacity))
 
 
 @batteries.route('/', methods=['POST', 'GET'])
@@ -69,13 +91,13 @@ def handle_batteries():
 
 
         batteries = Battery(user_id=current_user,
-                            voltage=voltage, 
-                            current=current, 
-                            SOC= SOC, 
+                            voltage=voltage,
+                            current=current,
+                            SOC= SOC,
                             SOH= SOH,
-                            RUL_EOL = RUL_EOL, 
+                            RUL_EOL = RUL_EOL,
                             DOD=DOD,
-                            brand=brand, 
+                            brand=brand,
                             capacity=capacity,
                             no_load_v=no_load_v,
                             internal_resistance=internal_resistance,
@@ -103,7 +125,7 @@ def handle_batteries():
 
 
         batteries = Battery.query.filter_by(user_id=current_user).all()
-        
+
         data = []
 
 
@@ -123,16 +145,16 @@ def handle_batteries():
             'number_of_cycle': battery.number_of_cycle,
             'time': battery.created_at
             })
-    
+
 
 
         return jsonify({'data': data}), HTTP_200_OK
-    
+
 
 # Fetch all users
 @batteries.get("/users")
 def get_battery():
-    
+
     users = User.query.all()
     data=[]
     if not users:
@@ -149,8 +171,8 @@ def get_battery():
         })
 
     return jsonify({'data': data}), HTTP_200_OK
-    
-    
+
+
 @batteries.put('/<int:id>')
 @batteries.patch('/<int:id>')
 @jwt_required()
@@ -174,7 +196,7 @@ def editbattery(id):
     internal_resistance = request.get_json().get('internal_resistance', '')
     number_of_cycle = request.get_json().get('number_of_cycle', '')
 
-    
+
     batteries.voltage = voltage
     batteries.current = current
     batteries.SOC = SOC
