@@ -19,17 +19,13 @@ def post_route():
 
     battery = Battery.query.filter_by(user_id=user).order_by(Battery.id.desc()).first()
     no_cycle = int(battery.number_of_cycle)
+    saved_SOC = int(battery.SOC)
 
     SOC = field3
     DOD = 100 - float(SOC)
 
-
-    if float(SOC) < 5:
+    if abs(saved_SOC - SOC) > 30:
         no_cycle += 1
-
-
-    print(user,field1,field2, SOC, field4, field5, DOD, no_cycle)
-
 
     batteries = Battery(user_id=user,
                 voltage=field1,
@@ -63,7 +59,7 @@ def get_route():
 
     voltage_calib = 2.96
     current_calib = -0.07
-    SOH_calib = 0.84
+    SOH_calib = 2
     SOC_calib = 1
 
 
